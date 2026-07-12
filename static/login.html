@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar — Lista de Chamada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f8f4ea;
+    --paper-deep:#f1ebdd;
+    --line:#dcd2b8;
+    --ink:#242119;
+    --ink-soft:#6b6353;
+    --pine:#2f5d50;
+    --rust:#8c3a2b;
+    --rust-soft:#f3e4de;
+    --gold:#a9822f;
+    --shadow: 0 1px 2px rgba(36,33,25,0.06), 0 8px 24px -12px rgba(36,33,25,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:
+      radial-gradient(1200px 500px at 20% -10%, #fffdf6 0%, transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 24px;
+  }
+
+  .card{
+    width:100%;
+    max-width: 400px;
+    background: var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow: var(--shadow);
+    padding: 40px 36px 34px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width: 10px;
+    background: repeating-linear-gradient(
+      180deg,
+      var(--gold) 0 6px,
+      transparent 6px 14px
+    );
+    opacity:.55;
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 10px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: 30px;
+    line-height: 1.1;
+    margin: 0 0 6px;
+  }
+  .sub{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height:1.5;
+    margin: 0 0 28px;
+  }
+
+  form{ display:flex; flex-direction:column; gap:16px; }
+
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color: var(--ink-soft);
+  }
+  .field input, .field select{
+    font-family:'Inter', sans-serif;
+    font-size: 14.5px;
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: #fffdf7;
+    color: var(--ink);
+    width:100%;
+  }
+  .field input:focus, .field select:focus{
+    outline: 2px solid var(--gold);
+    outline-offset:1px;
+  }
+
+  .group-select{
+    display:flex;
+    gap:8px;
+  }
+  .group-opt{ flex:1; }
+  .group-opt input{ position:absolute; opacity:0; width:0; height:0; }
+  .group-opt span{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 10px 0;
+    border:1px solid var(--line);
+    border-radius:3px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight:600;
+    color: var(--ink-soft);
+    background:#fffdf7;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .group-opt input:checked + span{
+    border-color: var(--pine);
+    color: var(--pine);
+    background: #e4ece8;
+  }
+  .group-opt input:focus-visible + span{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .btn-submit{
+    margin-top: 6px;
+    font-family:'Inter', sans-serif;
+    font-size: 14.5px;
+    font-weight:600;
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    cursor:pointer;
+    transition: background .15s ease;
+  }
+  .btn-submit:hover{ background:#3a352a; }
+  .btn-submit:disabled{ opacity:.6; cursor:progress; }
+  .btn-submit:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .error{
+    display:none;
+    font-size: 13px;
+    color: var(--rust);
+    background: var(--rust-soft);
+    border: 1px solid #e0b6a9;
+    border-radius: 3px;
+    padding: 10px 12px;
+    line-height:1.4;
+  }
+  .error.show{ display:block; }
+
+  .footnote{
+    margin-top: 22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <p class="eyebrow">Portal do Presbitério</p>
+    <h1>Entrar</h1>
+    <p class="sub">Faça login para carregar a lista de membros do seu grupo.</p>
+
+    <form id="login-form">
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" autocomplete="username" required>
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+      </div>
+
+      <div class="field">
+        <label>Grupo</label>
+        <div class="group-select">
+          <label class="group-opt">
+            <input type="radio" name="grupo" value="A" checked>
+            <span>A</span>
+          </label>
+          <label class="group-opt">
+            <input type="radio" name="grupo" value="B">
+            <span>B</span>
+          </label>
+          <label class="group-opt">
+            <input type="radio" name="grupo" value="C">
+            <span>C</span>
+          </label>
+        </div>
+      </div>
+
+      <p class="error" id="error-msg"></p>
+
+      <button type="submit" class="btn-submit" id="submit-btn">Entrar</button>
+    </form>
+
+    <p class="footnote">Suas credenciais são usadas apenas para autenticar no Portal.</p>
+  </div>
+
+<script>
+const form = document.getElementById('login-form');
+const errorMsg = document.getElementById('error-msg');
+const submitBtn = document.getElementById('submit-btn');
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  errorMsg.classList.remove('show');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Entrando…';
+
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  const grupo = form.querySelector('input[name=grupo]:checked').value;
+
+  try{
+    const resp = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha, grupo })
+    });
+    const data = await resp.json();
+
+    if(!resp.ok || !data.success){
+      throw new Error(data.error || 'Não foi possível entrar.');
+    }
+
+    sessionStorage.setItem('chamada_membros', JSON.stringify(data.membros));
+    sessionStorage.setItem('chamada_grupo', data.grupo);
+    window.location.href = '/chamada';
+
+  } catch(err){
+    errorMsg.textContent = err.message || 'Erro ao conectar com o servidor.';
+    errorMsg.classList.add('show');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Entrar';
+  }
+});
+</script>
+</body>
+</html>
