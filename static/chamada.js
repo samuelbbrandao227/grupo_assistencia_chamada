@@ -174,6 +174,7 @@ document.getElementById('btn-copy').addEventListener('click', ()=>{
   const data = document.getElementById('data-chamada').value;
   const resp = document.getElementById('responsavel').value.trim();
   const reasonLabels = {
+    'nao-pode-vir': 'Não pode vir',
     'assistencia': 'Precisa de assistência',
     'outro-grupo': 'Pertence a outro grupo',
     'nao-esta-mais': 'Não está mais na igreja'
